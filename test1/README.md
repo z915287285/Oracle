@@ -84,6 +84,6 @@ and d.department_name exists(select 1 from d where department_name between 'IT' 
 GROUP BY department_name
 ```
 参考资料来源于:
-1.[资料1]https://www.cnblogs.com/xiezhi/p/6247423.html
-2.[资料2]https://blog.csdn.net/ltaihyy/article/details/78331975
-3.本书方法
+1. [资料1]https://www.cnblogs.com/xiezhi/p/6247423.html
+2. [资料2]https://blog.csdn.net/ltaihyy/article/details/78331975
+3. 本书方法
