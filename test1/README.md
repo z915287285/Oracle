@@ -32,3 +32,39 @@ HAVING d.department_name in ('IT'，'Sales');
 ![执行计划](https://github.com/z915287285/Oracle/blob/master/test1/2-1.png)
 ### 统计信息2 ###
 ![统计信息](https://github.com/z915287285/Oracle/blob/master/test1/2-2.png)
+
+## 结果分析与比较 ##
+```
+从上面两种查询方法结果来看，查询的最终结果一致，存在一定的效率差。
+从执行计划分析来看主要从以下方面来比对：
+                                1.查询所用时间
+                                2.内存占用
+                                3.CPU总占用率
+```
+#### 综上分析 ####
+##### 查询1 #####
+<table>
+  <tr> 
+    <th></th> 
+    <th>查询1</th> 
+    <th>查询2</th> 
+  </tr>
+  <tr> 
+    <td>CPU总占用量比</td> 
+    <td>10%</td> 
+    <td>18%</td> 
+  </tr> 
+  <tr>
+    <td>TIME</td>
+    <td>00:00:07</td> 
+    <td>00:00:05</td> 
+  </tr>
+  <tr> 
+    <td>内存占用（字节）</td> 
+    <td>1008</td> 
+    <td>3665</td> 
+  </tr> 
+</table>
+
+
+
