@@ -42,7 +42,7 @@ HAVING d.department_name in ('IT'，'Sales');
                                 3.CPU总占用率
 ```
 #### 综上分析 ####
-##### 查询1 #####
+有如下表格:
 <table>
   <tr> 
     <th></th> 
@@ -66,5 +66,7 @@ HAVING d.department_name in ('IT'，'Sales');
   </tr> 
 </table>
 
-
-
+总得分析来看，查询1的方法相比查询2的方法时间更短。但是，占用内存，和CPU占用率比较大。
+根据个人分析来看，从时间和内存占用角度分析，第一种查询方法最优。
+如下图是sql developer的优化建议：
+![优化建议](https://github.com/z915287285/Oracle/blob/master/test1/op1.png)
