@@ -73,6 +73,17 @@ HAVING d.department_name in ('IT'，'Sales');
 从上图看出，优化方案并没有什么变化，说明本查询语句已经是最优化的。
 
 ## 自定义优化SQL语句 ##
+### 根据查找的资料以及相关知识分析，打算从以between替换in和exists替换in， ###
 ```SQL
-
+set autotrace on
+SELECT d.department_name，count(e.job_id)as "部门总人数"，
+avg(e.salary)as "平均工资"
+from hr.departments d，hr.employees e
+where d.department_id = e.department_id
+and d.department_name exists(select 1 from d where department_name between 'IT' and 'Sales')
+GROUP BY department_name
 ```
+参考资料来源于:
+1.[资料1]https://www.cnblogs.com/xiezhi/p/6247423.html
+2.[资料2]https://blog.csdn.net/ltaihyy/article/details/78331975
+3.本书方法
