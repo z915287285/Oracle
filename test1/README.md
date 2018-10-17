@@ -70,3 +70,9 @@ HAVING d.department_name in ('IT'，'Sales');
 根据个人分析来看，从时间和内存占用角度分析，第一种查询方法最优。
 如下图是sql developer的优化建议：
 ![优化建议](https://github.com/z915287285/Oracle/blob/master/test1/op1.png)
+从上图看出，优化方案并没有什么变化，说明本查询语句已经是最优化的。
+
+## 自定义优化SQL语句##
+```SQL
+
+```
