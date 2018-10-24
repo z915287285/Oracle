@@ -176,5 +176,6 @@
 ## 实验(Oracle sql developer)
 ### 可视化界面实现操作
 ### SQL-DEVELOPER修改用户的操作界面：
- ![]
+ ![修改](https://github.com/z915287285/Oracle/blob/master/test2/update.png)
 ### sqldeveloper授权对象的操作界面：
+ ![授权](https://github.com/z915287285/Oracle/blob/master/test2/power.png)
