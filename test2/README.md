@@ -115,5 +115,66 @@
   hcc
 ```
 
+## 查看数据库使用情况
+``` SQL
+  [oracle@deep02 ~]$ sqlplus system/123@pdborcl
 
-  
+  SQL*Plus: Release 12.1.0.2.0 Production on 星期三 10月 24 14:41:34 2018
+
+  Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+  上次成功登录时间: 星期三 10月 24 2018 14:32:13 +08:00
+
+  连接到:
+  Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+  With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+  SQL> SELECT tablespace_name,FILE_NAME,BYTES/1024/1024 MB,MAXBYTES/1024/1024 MAX_MB,autoextensible FROM dba_data_files  WHERE  tablespace_name='USERS';
+
+  TABLESPACE_NAME
+  --------------------------------------------------------------------------------
+  FILE_NAME
+  --------------------------------------------------------------------------------
+          MB     MAX_MB AUTOEXTEN
+  ---------- ---------- ---------
+  USERS
+  /home/oracle/app/oracle/oradata/orcl/pdborcl/SAMPLE_SCHEMA_users01.dbf
+           5 32767.9844 YES
+
+    SELECT a.tablespace_name "表空间名",Total/1024/1024 "大小MB",
+          group  BY tablespace_name)b
+   free/1024/1024 "剩余MB",( total - free )/1024/1024 "使用MB",
+   Round(( total - free )/ total,4)* 100 "使用率%"
+   from (SELECT tablespace_name,Sum(bytes)free
+          FROM   dba_free_space group  BY tablespace_name)a,
+         (SELECT tablespace_name,Sum(bytes)total FROM dba_data_files
+          group  BY tablespace_name)b
+    8   where  a.tablespace_name = b.tablespace_name;
+
+  表空间名
+  --------------------------------------------------------------------------------
+      大小MB     剩余MB     使用MB    使用率%
+  ---------- ---------- ---------- ----------
+  SYSAUX
+         630      35.75     594.25      94.33
+
+  USERS
+           5      .3125     4.6875      93.75
+
+  SYSTEM
+         270     3.5625   266.4375      98.68
+
+
+  表空间名
+  --------------------------------------------------------------------------------
+      大小MB     剩余MB     使用MB    使用率%
+  ---------- ---------- ---------- ----------
+  EXAMPLE
+    1281.875      62.25   1219.625      95.14
+```
+
+## 实验(Oracle sql developer)
+### 可视化界面实现操作
+### SQL-DEVELOPER修改用户的操作界面：
+ ![]
+### sqldeveloper授权对象的操作界面：
