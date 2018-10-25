@@ -8,8 +8,7 @@
   
 ## 实验步骤（Git Bash实现） ##
 - 第一步：以system登录到pdborcl，创建角色con_res_view和用户new_user，并授权和分配空间：
-  ``` 
-  SQL
+  ```  SQL
   [oracle@deep02 ~]$ sqlplus system/123@pdborcl
 
   SQL*Plus: Release 12.1.0.2.0 Production on 星期三 10月 24 14:32:13 2018
