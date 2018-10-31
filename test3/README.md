@@ -16,6 +16,7 @@
 ## 实验步骤
 
 - 第一步（利用System用户分配权限给CC用户）：
+
    查看cc用户权限
    
    ![界面1](https://github.com/z915287285/Oracle/blob/master/test3/1.png)
@@ -108,3 +109,6 @@
 
    USERS02表空间
 
+   ``` SQL
+   
+   ```
