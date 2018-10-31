@@ -15,12 +15,17 @@
 
 ## 实验步骤
 
-- 第一步（利用System用户分配权限给CC用户）
+- 第一步（利用System用户分配权限给CC用户）：
    查看cc用户权限
+   
    ![界面1](https://github.com/z915287285/Oracle/blob/master/test3/1.png)
+   
    给予权限(分配表空间)
+   
    ![界面2](https://github.com/z915287285/Oracle/blob/master/test3/2.png)
-- 第二步 (在三个表空间建表)
+
+- 第二步 (在三个表空间建表)：
+
    USERS表空间
    ``` SQL
    [oracle@deep02 ~]$ sqlplus cc/123@pdborcl
@@ -99,6 +104,7 @@
    --------------------------------------------------------------------------------
    MYTABLE
    ORDERS
-```
+   ```
 
    USERS02表空间
+
