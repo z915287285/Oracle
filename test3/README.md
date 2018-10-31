@@ -13,3 +13,86 @@
 - 写出插入数据的语句和查询数据的语句，并分析语句的执行计划。
 - 进行分区与不分区的对比实验。
 
+## 实验步骤
+
+- 第一步（利用System用户分配权限给CC用户）
+   ``` SQL
+   [oracle@deep02 ~]$ sqlplus cc/123@pdborcl
+
+   SQL*Plus: Release 12.1.0.2.0 Production on 星期三 10月 31 09:17:03 2018
+
+   Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+   上次成功登录时间: 星期三 10月 31 2018 08:53:18 +08:00
+
+   连接到:
+   Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+   With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+
+   SQL> select table_name from user_tables;
+
+   TABLE_NAME
+   --------------------------------------------------------------------------------
+   MYTABLE
+
+    CREATE TABLE orders
+    , customer_tel VARCHAR2(40 BYTE) NOT NULL
+   (
+    order_id NUMBER(10, 0) NOT NULL
+   )
+    , customer_name VARCHAR2(40 BYTE) NOT NULL
+   PARTITION BY RANGE (order_date)
+    , customer_tel VARCHAR2(40 BYTE) NOT NULL
+    , order_date DATE NOT NULL
+    TABLESPACE USERS
+    , employee_id NUMBER(6, 0) NOT NULL
+    INITIAL 8388608
+    NEXT 1048576
+    , discount NUMBER(8, 2) DEFAULT 0
+    , trade_receivable NUMBER(8, 2) DEFAULT 0
+   )
+   TABLESPACE USERS
+   PCTFREE 10 INITRANS 1
+   STORAGE (   BUFFER_POOL DEFAULT )
+   NOCOMPRESS NOPARALLEL
+   PARTITION BY RANGE (order_date)
+   (
+    PARTITION PARTITION_BEFORE_2016 VALUES LESS THAN (
+    TO_DATE(' 2016-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
+    'NLS_CALENDAR=GREGORIAN'))
+    NOLOGGING
+    TABLESPACE USERS
+    PCTFREE 10
+    INITRANS 1
+    STORAGE
+   (
+    INITIAL 8388608
+    NEXT 1048576
+    MINEXTENTS 1
+    MAXEXTENTS UNLIMITED
+    BUFFER_POOL DEFAULT
+   )
+   NOCOMPRESS NO INMEMORY
+   , PARTITION PARTITION_BEFORE_2017 VALUES LESS THAN (
+   TO_DATE(' 2017-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
+   'NLS_CALENDAR=GREGORIAN'))
+    36  NOLOGGING );
+
+   表已创建。
+
+   SQL> select table_name from table_names;
+   select table_name from table_names
+                          *
+   第 1 行出现错误:
+   ORA-00942: 表或视图不存在
+
+
+   SQL> select table_name from user_tables;
+
+   TABLE_NAME
+   --------------------------------------------------------------------------------
+   MYTABLE
+   ORDERS
+
+
+```
