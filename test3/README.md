@@ -195,4 +195,67 @@ TABLESPACE USERS03
 表已创建。
  ```
  
- 
+- 第四步骤 (插入数据)
+
+Orders表，先创建序列
+``` SQL
+    CREATE SEQUENCE seq_test
+  2   　　　　INCREMENT BY 1
+  3   　　　　START WITH 1
+  4  ;
+
+序列已创建。
+```
+再执行三次循环语句
+``` SQL
+   Begin
+  2    for i in 1..3000
+  3    loop
+  4           insert into ORDERS(ORDER_ID,CUSTOMER_NAME,CUSTOMER_TEL,ORDER_DATE,EMPLOYEE_ID,DISCOUNT) VALUES(seq_test.nextval,'李四',12345,to_date('2015-02-14','yyyy-mm-dd'),seq_test.nextval,seq_test.nextval);
+  5     end loop;
+  6     commit;
+  7  end;
+  8  /
+
+PL/SQL 过程已成功完成。
+
+   Begin
+  2    for i in 1..3000
+  loop
+  4           insert into ORDERS(ORDER_ID,CUSTOMER_NAME,CUSTOMER_TEL,ORDER_DATE,EMPLOYEE_ID,DISCOUNT) VALUES(seq_test.nextval,'朱泓超',12345,to_date('2016-05-20','yyyy-mm-dd'),seq_test.nextval,seq_test.nextval);
+  5     end loop;
+  6     commit;
+end;
+  8  /
+
+PL/SQL 过程已成功完成。
+   
+Begin
+  loop
+  for i in 1..3000
+  3    loop
+  4           insert into ORDERS(ORDER_ID,CUSTOMER_NAME,CUSTOMER_TEL,ORDER_DATE,EMPLOYEE_ID,DISCOUNT) VALUES(seq_test.nextval,'吴伟辉',12345,to_date('2017-05-14','yyyy-mm-dd'),seq_test.nextval,seq_test.nextval);
+   end loop;
+  6     commit;
+end;
+  8  /
+
+PL/SQL 过程已成功完成。
+
+
+```
+
+order_details表插入数据
+
+同样先创建序列
+
+``` SQL
+   CREATE SEQUENCE seq_test1
+ 　　　　INCREMENT BY 1
+  3   　　　　START WITH 1
+  4  ;
+
+序列已创建。
+```
+
+
