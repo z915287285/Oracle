@@ -259,3 +259,26 @@ order_details表插入数据
 ```
 
 
+插入数据
+
+
+```SQL
+   Begin
+  for i in 1..10000
+  loop
+         insert into order_details(ID,
+         ORDER_ID,PRODUCT_ID,PRODUCT_NUM,PRODUCT_PRICE) VALUES(seq_test1.nextval,seq_test1.nextval,to_char(seq_test1.nextval),40,300);
+   end loop;
+   commit;
+end;
+/
+```
+
+- 第五步 联合查询
+
+``` SQL
+   SELECT * FROM orders,order_details  
+   Where orders.order_id = order_details.order_id AND
+   orders.order_date<=to_date('2018-05-14','yyyy-mm-dd')
+```
+
