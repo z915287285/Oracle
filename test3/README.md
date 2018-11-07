@@ -25,47 +25,57 @@
    
    ![界面2](https://github.com/z915287285/Oracle/blob/master/test3/2.png)
 
-- 第二步 (在三个表空间建表)：
+- 第二步 (在三个表空间建分区表)：
 
-   USERS表空间
-   ``` SQL
-   [oracle@deep02 ~]$ sqlplus cc/123@pdborcl
+  ``` SQL
+  [oracle@deep02 ~]$ sqlplus cc/123@pdborcl
 
-   SQL*Plus: Release 12.1.0.2.0 Production on 星期三 10月 31 09:17:03 2018
+   SQL*Plus: Release 12.1.0.2.0 Production on 星期三 11月 7 14:17:57 2018
 
    Copyright (c) 1982, 2014, Oracle.  All rights reserved.
 
-   上次成功登录时间: 星期三 10月 31 2018 08:53:18 +08:00
+   上次成功登录时间: 星期三 10月 31 2018 15:02:14 +08:00
 
    连接到:
    Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
    With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
 
-   SQL> select table_name from user_tables;
-
-   TABLE_NAME
-   --------------------------------------------------------------------------------
-   MYTABLE
-
     CREATE TABLE orders
-    , customer_tel VARCHAR2(40 BYTE) NOT NULL
    (
-    order_id NUMBER(10, 0) NOT NULL
-   )
-    , customer_name VARCHAR2(40 BYTE) NOT NULL
-   PARTITION BY RANGE (order_date)
-    , customer_tel VARCHAR2(40 BYTE) NOT NULL
-    , order_date DATE NOT NULL
-    TABLESPACE USERS
-    , employee_id NUMBER(6, 0) NOT NULL
-    INITIAL 8388608
-    NEXT 1048576
-    , discount NUMBER(8, 2) DEFAULT 0
-    , trade_receivable NUMBER(8, 2) DEFAULT 0
-   )
-   TABLESPACE USERS
-   PCTFREE 10 INITRANS 1
+        order_id NUMBER(10, 0) NOT NULL
    STORAGE (   BUFFER_POOL DEFAULT )
+   NOCOMPRESS NOPARALLEL
+   PARTITION BY RANGE (order_date)
+   (
+    PARTITION PARTITION_BEFORE_2016 VALUES LESS THAN (
+    TO_DATE(' 2016-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
+    'NLS_CALENDAR=GREGORIAN'))
+    , customer_name VARCHAR2(40 BYTE) NOT NULL
+    , customer_tel VARCHAR2(40 BYTE) NOT NULL
+        , order_date DATE NOT NULL
+    , employee_id NUMBER(6, 0) NOT NULL
+    , discount NUMBER(8, 2) DEFAULT 0
+        , trade_receivable NUMBER(8, 2) DEFAULT 0
+   TABLESPACE USERS02
+    PCTFREE 10
+    INITRANS 1
+   )
+    STORAGE
+   (
+    INITIAL 8388608
+   TABLESPACE USERS
+    NEXT 1048576
+    MINEXTENTS 1
+    MAXEXTENTS UNLIMITED
+    BUFFER_POOL DEFAULT
+   PCTFREE 10 INITRANS 1
+   )
+   NOCOMPRESS NO INMEMORY
+   STORAGE (   BUFFER_POOL DEFAULT )
+   , PARTITION PARTITION_BEFORE_2018 VALUES LESS THAN (
+   TO_DATE(' 2018-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
+   'NLS_CALENDAR=GREGORIAN'))
+   NOLOGGING
    NOCOMPRESS NOPARALLEL
    PARTITION BY RANGE (order_date)
    (
@@ -88,27 +98,101 @@
    , PARTITION PARTITION_BEFORE_2017 VALUES LESS THAN (
    TO_DATE(' 2017-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
    'NLS_CALENDAR=GREGORIAN'))
-    36  NOLOGGING );
+   NOLOGGING
+   TABLESPACE USERS02
+    PCTFREE 10
+    INITRANS 1
+    STORAGE
+   (
+    INITIAL 8388608
+    NEXT 1048576
+    MINEXTENTS 1
+    MAXEXTENTS UNLIMITED
+    BUFFER_POOL DEFAULT
+   )
+   NOCOMPRESS NO INMEMORY
+   , PARTITION PARTITION_BEFORE_2018 VALUES LESS THAN (
+   TO_DATE(' 2018-01-01 00:00:00', 'SYYYY-MM-DD HH24:MI:SS',
+   'NLS_CALENDAR=GREGORIAN'))
+   NOLOGGING
+   TABLESPACE USERS03
+   );
+
+
+
+
 
    表已创建。
-
-   SQL> select table_name from table_names;
-   select table_name from table_names
-                          *
-   第 1 行出现错误:
-   ORA-00942: 表或视图不存在
-
-
-   SQL> select table_name from user_tables;
-
-   TABLE_NAME
-   --------------------------------------------------------------------------------
-   MYTABLE
-   ORDERS
-   ```
-
-   USERS02表空间
-
-   ``` SQL
    
-   ```
+   ALTER TABLE ORDERS
+  2  ADD CONSTRAINT ORDERS_PK PRIMARY KEY
+  3  (
+  4    ORDER_ID
+  5  )
+  6  ENABLE;
+
+   表已更改。
+
+  ```
+  包括主键设置
+  
+  
+ - 第三步 (创建order_details)
+ 
+ ``` SQL
+      CREATE TABLE order_details
+  2  (
+id NUMBER(10, 0) NOT NULL
+  4  , order_id NUMBER(10, 0) NOT NULL
+, product_id VARCHAR2(40 BYTE) NOT NULL
+  6  , product_num NUMBER(8, 2) NOT NULL
+  7  , product_price NUMBER(8, 2) NOT NULL
+  8  , CONSTRAINT order_details_fk1 FOREIGN KEY  (order_id)
+REFERENCES orders  (  order_id   )
+ENABLE
+)
+TABLESPACE USERS
+PCTFREE 10 INITRANS 1
+STORAGE (   BUFFER_POOL DEFAULT )
+NOCOMPRESS NOPARALLEL
+PARTITION BY REFERENCE (order_details_fk1)
+ 17  (
+PARTITION PARTITION_BEFORE_2016
+NOLOGGING
+ 20  TABLESPACE USERS
+ 21  PCTFREE 10 INITRANS 1
+STORAGE
+(
+ INITIAL 8388608
+ NEXT 1048576
+ 26   MINEXTENTS 1
+(
+ INITIAL 8388608
+ MAXEXTENTS UNLIMITED
+ BUFFER_POOL DEFAULT
+)
+NOCOMPRESS NO INMEMORY,
+PARTITION PARTITION_BEFORE_2017
+ MAXEXTENTS UNLIMITED
+NOLOGGING
+TABLESPACE USERS02
+PCTFREE 10 INITRANS 1
+STORAGE
+(
+ INITIAL 8388608
+ NEXT 1048576
+ MINEXTENTS 1
+ MAXEXTENTS UNLIMITED
+ BUFFER_POOL DEFAULT
+)
+TABLESPACE USERS03
+NOCOMPRESS NO INMEMORY,
+PARTITION PARTITION_BEFORE_2018
+NOLOGGING
+TABLESPACE USERS03
+ 47  );
+
+表已创建。
+ ```
+ 
+ 
