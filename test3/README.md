@@ -281,4 +281,9 @@ end;
    Where orders.order_id = order_details.order_id AND
    orders.order_date<=to_date('2018-05-14','yyyy-mm-dd')
 ```
+![界面3](https://github.com/z915287285/Oracle/blob/master/test3/3.png)
 
+# 总结：分区与不分区
+## - 分区的话，如果进行大数据量（上百万）的查询，速度和效率会更高，不分区则相反
+## - 本实验的话，数据量在一万条，个人感觉不是太明显，但是却有一点细微的效率差别
+## - 本实验，受益良多，学会创建分区表以及联合查询
