@@ -60,7 +60,7 @@ Grant 成功。
 
 
 ```
-![界面1]（https://github.com/z915287285/Oracle/blob/master/test4/1.png）
+![界面1](https://github.com/z915287285/Oracle/blob/master/test4/1.png)
 
 ### 第二步 删除表（同时删除主外键、触发器和程序包）和序列
 
