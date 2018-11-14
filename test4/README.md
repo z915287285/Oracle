@@ -60,6 +60,7 @@ Grant 成功。
 
 
 ```
+![界面1]（https://github.com/z915287285/Oracle/blob/master/test4/1.png）
 
 ### 第二步 删除表（同时删除主外键、触发器和程序包）和序列
 
@@ -976,6 +977,8 @@ select * from VIEW_ORDER_DETAILS where order_id=1;
 ```
 结果如图：
 
+![界面2](https://github.com/z915287285/Oracle/blob/master/test4/2.png)
+
 递归查询某个员工及其所有下属，子下属员工
 
 ``` sql
@@ -991,6 +994,8 @@ SELECT * FROM employees START WITH EMPLOYEE_ID = 11 CONNECT BY PRIOR EMPLOYEE_ID
 ```
 
 两者结果如图：
+
+![界面3](https://github.com/z915287285/Oracle/blob/master/test4/3.png)
 
 ### 第九步 查询分区、索引情况
 
@@ -1060,7 +1065,7 @@ select * from orders where order_date<to_date('2016-01-01','yyyy-mm-dd');
 
 ```
 结果如下
-
+![界面4](https://github.com/z915287285/Oracle/blob/master/test4/5.png)
 
 ### 最后 查看
 
