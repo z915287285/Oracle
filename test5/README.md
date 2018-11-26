@@ -47,7 +47,7 @@ Package MYPACK 已编译
  IS -- 创建MyPack 包
   FUNCTION Get_SaleAmount(V_DEPARTMENT_ID NUMBER) RETURN NUMBER-- 定义Get_SaleAmount函数
   AS
-    N NUMBER(20,2); --注意，订单ORDERS.TRADE_RECEIVABLE的类型是NUMBER(8,2),汇总之后，数据要大得多。
+    N NUMBER(20,2); 
     BEGIN
       SELECT SUM(O.TRADE_RECEIVABLE) into N  FROM ORDERS O,EMPLOYEES E
       WHERE O.EMPLOYEE_ID=E.EMPLOYEE_ID AND E.DEPARTMENT_ID =V_DEPARTMENT_ID;
@@ -131,3 +131,14 @@ PL/SQL 过程已成功完成。
 
 ```
 
+## 实验总结
+
+本实验基于实验四进行实验，主要内容是声明并创建包，函数以及过程。
+我总结了以下几个实验要点：
+```
+1.在创建之前必须先声明。
+2.创建的时候注意数据类型，以及数据大小。
+3.注意递归查询方式。
+
+通过本次实验，受益良多。学习了包创建，函数设计，以及过程的建立（尤其是调用递归查询的思想）。
+```
